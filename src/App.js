@@ -6,6 +6,7 @@ import './scss/app.scss';
 import { Header, Home, Cart } from './components/';
 
 function App() {
+
   return (
     <div className="wrapper">
       <Header />
