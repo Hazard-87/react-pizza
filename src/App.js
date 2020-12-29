@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 
 import './scss/app.scss';
@@ -6,6 +6,7 @@ import './scss/app.scss';
 import { Header, Home, Cart } from './components/';
 
 function App() {
+  const [pizzas, setPizzas] = useState([]);
 
   return (
     <div className="wrapper">
