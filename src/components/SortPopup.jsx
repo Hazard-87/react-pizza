@@ -5,6 +5,8 @@ function SortPopup({ items }) {
   const sortRef = useRef();
   const [activeItem, setActiveItem] = useState(0);
 
+  console.log(sortRef);
+
   const toggleVisiblePopup = () => {
     setVisiblePopup(!visiblePopup);
   };
