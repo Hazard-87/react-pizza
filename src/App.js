@@ -1,28 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './scss/app.scss';
 
 import { Header, Home, Cart } from './components/';
-import axios from 'axios';
+import { setPizzas } from './redux/actions/pizzasAC';
+// import store from './redux/store';
 
-function App() {
-  const [pizzas, setPizzas] = useState([]);
-  console.log(pizzas);
+const App = () => {
+  const dispatch = useDispatch();
+
+  const { items } = useSelector(({ pizzas }) => ({
+    items: pizzas.items,
+  }));
+
   useEffect(async () => {
     let response = await axios.get('http://localhost:3000/db.json');
-    setPizzas(response.data.pizzas);
+    dispatch(setPizzas(response.data.pizzas));
   }, []);
 
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <Route exact path="/" render={() => <Home pizzas={pizzas} />} />
+        <Route exact path="/" render={() => <Home pizzas={items} />} />
         <Route path="/cart" component={Cart} />
       </div>
     </div>
   );
-}
+};
 
 export default App;
+
+// class App extends React.Component {
+//   componentDidMount() {
+//     axios.get('http://localhost:3000/db.json').then(({ data }) => {
+//       this.props.setPizzas(data.pizzas);
+//     });
+//   }
+
+//   render() {
+//     console.log(this.props.items);
+//     return (
+//       <div className="wrapper">
+//         <Header />
+//         <div className="content">
+//           <Route exact path="/" render={() => <Home pizzas={this.props.items} />} />
+//           <Route path="/cart" component={Cart} />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// const mapStateToProps = (state) => ({
+//   items: state.pizzas.items,
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   setPizzas: (items) => {
+//     dispatch(setPizzas(items));
+//   },
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);

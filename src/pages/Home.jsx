@@ -21,16 +21,17 @@ function Home({ pizzas }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {pizzas.map((pizza, index) => (
-          <PizzaBlock
-            key={index}
-            name={pizza.name}
-            imageUrl={pizza.imageUrl}
-            sizes={pizza.sizes}
-            types={pizza.types}
-            price={pizza.price}
-          />
-        ))}
+        {pizzas &&
+          pizzas.map((pizza) => (
+            <PizzaBlock
+              key={pizza.id}
+              name={pizza.name}
+              imageUrl={pizza.imageUrl}
+              sizes={pizza.sizes}
+              types={pizza.types}
+              price={pizza.price}
+            />
+          ))}
       </div>
     </div>
   );
