@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function CartFull() {
+function CartFull({ items }) {
+  const [count, setCount] = useState(2);
+  const price = items[0].price * count;
+
+  const inc = () => {
+    return setCount(count + 1);
+  };
+
+  const dec = () => {
+    if (count > 1) {
+      return setCount(count - 1);
+    }
+  };
+
+  // console.log(items);
   return (
     <div class="cart">
       <div class="cart__top">
@@ -79,18 +93,14 @@ function CartFull() {
       <div class="content__items">
         <div class="cart__item">
           <div class="cart__item-img">
-            <img
-              class="pizza-block__image"
-              src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-              alt="Pizza"
-            />
+            <img class="pizza-block__image" src={items[0].imageUrl} alt="Pizza" />
           </div>
           <div class="cart__item-info">
-            <h3>Сырный цыпленок</h3>
-            <p>тонкое тесто, 26 см.</p>
+            <h3>{items[0].name}</h3>
+            <p>тонкое тесто, {items[0].size} см.</p>
           </div>
           <div class="cart__item-count">
-            <div class="button button--outline button--circle cart__item-count-minus">
+            <div onClick={dec} class="button button--outline button--circle cart__item-count-minus">
               <svg
                 width="10"
                 height="10"
@@ -107,8 +117,8 @@ function CartFull() {
                 />
               </svg>
             </div>
-            <b>2</b>
-            <div class="button button--outline button--circle cart__item-count-plus">
+            <b>{count}</b>
+            <div onClick={inc} class="button button--outline button--circle cart__item-count-plus">
               <svg
                 width="10"
                 height="10"
@@ -127,7 +137,7 @@ function CartFull() {
             </div>
           </div>
           <div class="cart__item-price">
-            <b>770 ₽</b>
+            <b>{price} ₽</b>
           </div>
           <div class="cart__item-remove">
             <div class="button button--outline button--circle">
@@ -149,6 +159,7 @@ function CartFull() {
             </div>
           </div>
         </div>
+        {/*
         <div class="cart__item">
           <div class="cart__item-img">
             <img
@@ -344,8 +355,8 @@ function CartFull() {
           </div>
           <div class="cart__item-price">
             <b>770 ₽</b>
-          </div>
-          <div class="cart__item-remove">
+          </div> 
+           <div class="cart__item-remove">
             <div class="button button--outline button--circle">
               <svg
                 width="10"
@@ -363,8 +374,8 @@ function CartFull() {
                 />
               </svg>
             </div>
-          </div>
-        </div>
+          </div> 
+        </div> */}
       </div>
       <div class="cart__bottom">
         <div class="cart__bottom-details">

@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import { setCart } from '../redux/actions/cartAC';
 
-const PizzaBlock = ({ name, imageUrl, sizes, price, types }) => {
+const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
+  const dispatch = useDispatch();
   const availablesTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+
+  let size = activeSize;
+  let type = activeType;
+
+  const setCarts = (items) => {
+    dispatch(setCart(items));
+  };
 
   const onSelectTypes = (index) => {
     setActiveType(index);
@@ -49,7 +59,9 @@ const PizzaBlock = ({ name, imageUrl, sizes, price, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <div
+          onClick={() => setCarts({ name, size, type, price, imageUrl, id })}
+          className="button button--outline button--add">
           <svg
             width="12"
             height="12"

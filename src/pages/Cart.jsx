@@ -1,12 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { CartEmpty, CartFull } from '../components';
-const state = true;
 
 function Cart() {
+  const { items } = useSelector(({ cart }) => ({
+    items: cart.items,
+  }));
   return (
     <div class="content">
-      <div class="container container--cart">{state ? <CartFull /> : <CartEmpty />}</div>
+      <div class="container container--cart">
+        {items ? <CartFull items={items} /> : <CartEmpty />}
+      </div>
     </div>
   );
 }
