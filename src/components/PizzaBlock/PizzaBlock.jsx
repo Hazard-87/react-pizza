@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import { setCart } from '../redux/actions/cartAC';
+import PropTypes from 'prop-types';
+
+import { setCart } from '../../redux/actions/cartAC';
 
 const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
   const dispatch = useDispatch();
@@ -79,6 +81,21 @@ const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
       </div>
     </div>
   );
+};
+
+PizzaBlock.propTypes = {
+  name: PropTypes.string,
+  imageUrl: PropTypes.string,
+  price: PropTypes.number,
+  types: PropTypes.arrayOf(PropTypes.number),
+  sizes: PropTypes.arrayOf(PropTypes.number),
+};
+
+PizzaBlock.defaultProps = {
+  name: '---',
+  price: 0,
+  types: [],
+  sizes: [],
 };
 
 export default PizzaBlock;

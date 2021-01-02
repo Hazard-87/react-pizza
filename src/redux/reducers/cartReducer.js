@@ -1,7 +1,8 @@
-const initialState = {};
+const initialState = {
+  items: [],
+};
 
 const cart = (state = initialState, action) => {
-  console.log(state);
   switch (action.type) {
     case 'SET_CART':
       return {
