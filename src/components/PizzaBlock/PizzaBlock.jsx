@@ -3,21 +3,14 @@ import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { setCart } from '../../redux/actions/cartAC';
+import { Button } from '..';
 
-const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
-  const dispatch = useDispatch();
+const PizzaBlock = ({ id, name, imageUrl, sizes, price, types, onClickAddPizza }) => {
+  // const dispatch = useDispatch();
   const availablesTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
-
-  let size = activeSize;
-  let type = activeType;
-
-  const setCarts = (items) => {
-    dispatch(setCart(items));
-  };
 
   const onSelectTypes = (index) => {
     setActiveType(index);
@@ -25,6 +18,18 @@ const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
 
   const onSelectSizes = (size) => {
     setActiveSize(size);
+  };
+
+  const onAddPizza = () => {
+    const obj = {
+      id,
+      name,
+      price,
+      imageUrl,
+      size: activeSize,
+      type: availablesTypes[activeType],
+    };
+    onClickAddPizza(obj);
   };
 
   return (
@@ -61,9 +66,7 @@ const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div
-          onClick={() => setCarts({ name, size, type, price, imageUrl, id })}
-          className="button button--outline button--add">
+        <Button onClick={onAddPizza} className="button--add" outline>
           <svg
             width="12"
             height="12"
@@ -77,7 +80,7 @@ const PizzaBlock = ({ id, name, imageUrl, sizes, price, types }) => {
           </svg>
           <span>Добавить</span>
           <i>2</i>
-        </div>
+        </Button>
       </div>
     </div>
   );
@@ -89,6 +92,7 @@ PizzaBlock.propTypes = {
   price: PropTypes.number,
   types: PropTypes.arrayOf(PropTypes.number),
   sizes: PropTypes.arrayOf(PropTypes.number),
+  onClickAddPizza: PropTypes.func,
 };
 
 PizzaBlock.defaultProps = {

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Categories, SortPopup, PizzaBlock, PizzaLoadingBlock } from '../components';
 import { setCategory, setSortBy } from '../redux/actions/filtersAC';
 import { fetchPizzas } from '../redux/actions/pizzasAC';
+import { addPizzaToCart, setTotalPrice, setTotalCount } from '../redux/actions/cartAC';
 
 const categoryNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -30,6 +31,12 @@ const Home = () => {
     dispatch(setSortBy(type));
   }, []);
 
+  const handleAddPizzaToCart = (items) => {
+    dispatch(addPizzaToCart(items));
+    dispatch(setTotalPrice(items.price));
+    dispatch(setTotalCount(1));
+  };
+
   return (
     <div className="container">
       <div className="content__top">
@@ -52,6 +59,7 @@ const Home = () => {
                 sizes={pizza.sizes}
                 types={pizza.types}
                 price={pizza.price}
+                onClickAddPizza={handleAddPizzaToCart}
               />
             ))
           : Array(12)

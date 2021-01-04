@@ -7,10 +7,11 @@ function Cart() {
   const { items } = useSelector(({ cart }) => ({
     items: cart.items,
   }));
+
   return (
-    <div class="content">
-      <div class="container container--cart">
-        {items ? <CartFull items={items} /> : <CartEmpty />}
+    <div className="content">
+      <div className="container container--cart">
+        {!items[0] ? <CartEmpty /> : <CartFull items={items} />}
       </div>
     </div>
   );
