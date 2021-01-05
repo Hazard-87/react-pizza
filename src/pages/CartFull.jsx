@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '../components';
 
 import PizzaCartBlock from '../components/PizzaCartBlock';
 
-function CartFull({ items }) {
-  console.log('cartfull', items);
+function CartFull({
+  items,
+  totalPrice,
+  totalCount,
+  onClearCart,
+  onRemoveCartItem,
+  onPlus,
+  onMinus,
+}) {
+  const addedPizzas = Object.keys(items).map((key) => {
+    return items[key].items[0];
+  });
+
+  const onClickBay = () => {
+    console.log(' ВАШ ЗАКАЗ', items);
+  };
+
   return (
     <div className="cart">
       <div className="cart__top">
@@ -39,7 +55,7 @@ function CartFull({ items }) {
           </svg>
           Корзина
         </h2>
-        <div className="cart__clear">
+        <div onClick={onClearCart} className="cart__clear">
           <svg
             width="20"
             height="20"
@@ -79,24 +95,32 @@ function CartFull({ items }) {
           <span>Очистить корзину</span>
         </div>
       </div>
-      {items &&
-        items.map((item) => (
+      <div className="content__items">
+        {addedPizzas.map((obj) => (
           <PizzaCartBlock
-            name={item.name}
-            imageUrl={item.imageUrl}
-            size={item.size}
-            price={item.price}
+            key={obj.id}
+            id={obj.id}
+            name={obj.name}
+            imageUrl={obj.imageUrl}
+            size={obj.size}
+            type={obj.type}
+            price={items[obj.id].totalPrice}
+            count={items[obj.id].items.length}
+            onRemoveCartItem={onRemoveCartItem}
+            onPlus={onPlus}
+            onMinus={onMinus}
           />
         ))}
+      </div>
       <div className="cart__bottom">
         <div className="cart__bottom-details">
           <span>
             {' '}
-            Всего пицц: <b>3 шт.</b>{' '}
+            Всего пицц: <b>{totalCount} шт.</b>
           </span>
           <span>
             {' '}
-            Сумма заказа: <b>900 ₽</b>{' '}
+            Сумма заказа: <b>{totalPrice} ₽</b>
           </span>
         </div>
         <div className="cart__bottom-buttons">
@@ -118,9 +142,9 @@ function CartFull({ items }) {
 
             <span>Вернуться назад</span>
           </Link>
-          <div className="button pay-btn">
+          <Button onClick={onClickBay} className="pay-btn">
             <span>Оплатить сейчас</span>
-          </div>
+          </Button>
         </div>
       </div>
     </div>

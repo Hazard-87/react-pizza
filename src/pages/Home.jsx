@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Categories, SortPopup, PizzaBlock, PizzaLoadingBlock } from '../components';
 import { setCategory, setSortBy } from '../redux/actions/filtersAC';
 import { fetchPizzas } from '../redux/actions/pizzasAC';
-import { addPizzaToCart, setTotalPrice, setTotalCount } from '../redux/actions/cartAC';
+import { addPizzaToCart } from '../redux/actions/cartAC';
 
 const categoryNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
@@ -17,6 +17,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const items = useSelector(({ pizzas }) => pizzas.items);
   const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
+  const cartItems = useSelector(({ cart }) => cart.items);
   const { category, sortBy } = useSelector(({ filters }) => filters);
 
   useEffect(() => {
@@ -33,8 +34,6 @@ const Home = () => {
 
   const handleAddPizzaToCart = (items) => {
     dispatch(addPizzaToCart(items));
-    dispatch(setTotalPrice(items.price));
-    dispatch(setTotalCount(1));
   };
 
   return (
@@ -53,12 +52,8 @@ const Home = () => {
           ? items.map((pizza) => (
               <PizzaBlock
                 key={pizza.id}
-                id={pizza.id}
-                name={pizza.name}
-                imageUrl={pizza.imageUrl}
-                sizes={pizza.sizes}
-                types={pizza.types}
-                price={pizza.price}
+                {...pizza}
+                addedCount={cartItems[pizza.id] && cartItems[pizza.id].items.length}
                 onClickAddPizza={handleAddPizzaToCart}
               />
             ))
